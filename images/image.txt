@@ -1,0 +1,109 @@
+package com.example.images;
+
+import javafx.scene.layout.StackPane;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+public class HelloApplication extends Application {
+    private String[] imagePaths = {
+                "/path/to/image1.jpg",
+                "/path/to/image2.jpg",
+                // Add more image paths as needed
+        };
+
+        private ImageView selectedImageView = new ImageView();
+
+        public static void main(String[] args) {
+            launch(args);
+        }
+
+        @Override
+        public void start(Stage primaryStage) {
+            primaryStage.setTitle("Images");
+
+            GridPane gridPane = createImageGrid();
+            addImageClickEvent(gridPane);
+
+            StackPane root = new StackPane(gridPane); // Wrap GridPane in a StackPane
+
+            Scene scene = new Scene(root, 800, 600);
+           // scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+            //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+           // String cssResourcePath = getClass().getResource("styles.css").toExternalForm();
+            //System.out.println("CSS Resource URL: " + cssResourcePath);
+            //scene.getStylesheets().add(getClass().getResource("/com/example/images/styles.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/com/example/images/styles.css").toExternalForm());
+
+
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+
+    private GridPane createImageGrid() {
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+
+        int col = 0;
+        int row = 0;
+
+        for (String imagePath : imagePaths) {
+            try {
+                // Load image resource
+                Image image = new Image(getClass().getResourceAsStream("11.jpeg"));
+                Image image1 =new Image(getClass().getResourceAsStream("12.jpeg"));
+                // Create ImageView and set properties
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+
+                //image1
+                ImageView imageView1=new ImageView(image1) ;
+                // Add a style class to the ImageView
+                imageView.getStyleClass().add("thumbnail");
+
+                // Add ImageView to the GridPane
+                gridPane.add(imageView, col, row);
+
+                col++;
+                if (col == 3) {
+                    col = 0;
+                    row++;
+                }
+            } catch (Exception e) {
+                System.err.println("Error loading image: " + imagePath);
+                e.printStackTrace();
+            }
+        }
+
+        return gridPane;
+    }
+
+    private void addImageClickEvent(GridPane gridPane) {
+            gridPane.setOnMouseClicked(event -> {
+                if (event.getTarget() instanceof ImageView) {
+                    ImageView clickedImageView = (ImageView) event.getTarget();
+                    selectedImageView.setImage(clickedImageView.getImage());
+                    showFullSizeImage();
+                }
+            });
+        }
+
+        private void showFullSizeImage() {
+            Stage fullSizeStage = new Stage();
+            fullSizeStage.setTitle("Full Size Image");
+
+            ImageView fullSizeImageView = new ImageView(selectedImageView.getImage());
+            fullSizeImageView.setFitWidth(400);
+            fullSizeImageView.setFitHeight(400);
+
+            StackPane root = new StackPane(fullSizeImageView); // Wrap ImageView in a StackPane
+
+            fullSizeStage.setScene(new Scene(root));
+            fullSizeStage.show();
+        }
+    }

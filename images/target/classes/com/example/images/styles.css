@@ -1,0 +1,26 @@
+/* styles.css */
+
+
+.thumbnail {
+    -fx-border-color: #333;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
+.thumbnail:hover {
+    -fx-border-color: #ff4500; /* Change the color on hover */
+}
+
+/* Button styling */
+.button {
+    -fx-background-color: "black"; /* Green background color */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 14px; /* Font size */
+    -fx-padding: 10px 20px; /* Padding */
+    -fx-border-radius: 5; /* Border radius */
+    -fx-border-color: transparent; /* Transparent border color */
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Dark green background color on hover */
+}
